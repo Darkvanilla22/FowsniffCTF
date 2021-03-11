@@ -40,6 +40,7 @@ Now, I'll go ahead and crack these hashes using John The Ripper:
 ![image](https://user-images.githubusercontent.com/53369798/110748684-13e72300-820e-11eb-981c-0af6b6466b3e.png)
 
 After running the command, here is the output:
+
 NOTE: The user "stone" did not have their password's hash cracked
 
 ![image](https://user-images.githubusercontent.com/53369798/110748878-5b6daf00-820e-11eb-933c-a32483db9ced.png)
@@ -49,6 +50,7 @@ Let's also answer this question from the room while we still see the passwords t
 ![image](https://user-images.githubusercontent.com/53369798/110753526-adb1ce80-8214-11eb-98c3-4e15e41589b5.png)
 
 Since we need to bruteforce a login for an online service, let's go ahead and use Hydra for this. I've went ahead and seperated the usernames and passwords into different text files to be used with Hydra:
+
 NOTE: "-f" means that the first succuessful attempt will end the attack
 
 ![image](https://user-images.githubusercontent.com/53369798/110754682-13528a80-8216-11eb-9da0-16af3bb12ce2.png)
@@ -83,4 +85,30 @@ Let's waste no time here and try to login to SSH using his account:
 
 ![image](https://user-images.githubusercontent.com/53369798/110758310-64647d80-821a-11eb-8a76-a5b4ae8322e9.png)
 
-Alright, 
+Alright, according the question on THM, we should see what interesting files on the system can be used by the group "baksteen" is apart of:
+
+![image](https://user-images.githubusercontent.com/53369798/110759809-033da980-821c-11eb-8b37-c8e1dc18ec14.png)
+
+"cube.sh"? That's a shell script, let's take a look at it:
+
+![image](https://user-images.githubusercontent.com/53369798/110760019-426bfa80-821c-11eb-8a27-66192be775c8.png)
+
+Yup, we've got write permissions via group to this file! We can exploit this by inserting our own malicious code into this shell script.
+
+NOTE: It should be mentioned that this script activates whenever a user logins via SSH, as it is a MOTD message.
+
+Let's go ahead and use the one provided to us by the room's creator:
+
+NOTE: I accidently left the "IP" field unchanged in the code. I went ahead and updated that afterwards.
+
+![image](https://user-images.githubusercontent.com/53369798/110760641-e6ee3c80-821c-11eb-972a-c00e31ecfbb1.png)
+
+Since this script is supposed to be used as a MOTD, we can head on over to /etc/update-motd.d/ to check if anything there runs as root.
+
+![image](https://user-images.githubusercontent.com/53369798/110761253-81e71680-821d-11eb-89d3-662949e7847f.png)
+
+As everything in the directory does appear to run as root, let's confirm that one of these files call to activate the "cube.sh" script. Let's check "00-Header" first:
+
+![image](https://user-images.githubusercontent.com/53369798/110761420-b78bff80-821d-11eb-8ade-082223b233aa.png)
+
+Indeed it does. 
