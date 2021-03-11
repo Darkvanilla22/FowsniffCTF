@@ -99,7 +99,7 @@ NOTE: It should be mentioned that this script activates whenever a user logins v
 
 Let's go ahead and use the one provided to us by the room's creator:
 
-NOTE: I accidently left the "IP" field unchanged in the code. I went ahead and updated that afterwards.
+NOTE: I accidently left the "local IP" field unchanged in the code. I went ahead and updated that afterwards. Also, make sure to enclose quotes around the "local IP", "/bin/bash", and "-i" commands
 
 ![image](https://user-images.githubusercontent.com/53369798/110760641-e6ee3c80-821c-11eb-972a-c00e31ecfbb1.png)
 
@@ -112,3 +112,20 @@ As everything in the directory does appear to run as root, let's confirm that on
 ![image](https://user-images.githubusercontent.com/53369798/110761420-b78bff80-821d-11eb-8ade-082223b233aa.png)
 
 Indeed it does. 
+
+From here, we need to establish a reverse shell with the server, and we do that by setting up a listener via Netcat. We have to re-login to the SSH service to activate the MOTD's malicious code, thus starting a session with our Netcat listener:
+
+![image](https://user-images.githubusercontent.com/53369798/110764003-8234e100-8220-11eb-920e-745c0905afd3.png)
+
+We have a successful connection! Let's check to see if we're really root:
+
+![image](https://user-images.githubusercontent.com/53369798/110764111-a395cd00-8220-11eb-9e7d-786846ba5b4d.png)
+
+And indeed we are. As it is not required to find a flag at all, I'm assuming there is one in the root directory:
+
+![image](https://user-images.githubusercontent.com/53369798/110764358-f5d6ee00-8220-11eb-8d8b-42db94353842.png)
+
+And there it is!
+
+
+Overall, this was a nice, fun little room!
