@@ -40,10 +40,47 @@ Now, I'll go ahead and crack these hashes using John The Ripper:
 ![image](https://user-images.githubusercontent.com/53369798/110748684-13e72300-820e-11eb-981c-0af6b6466b3e.png)
 
 After running the command, here is the output:
+NOTE: The user "stone" did not have their password's hash cracked
 
 ![image](https://user-images.githubusercontent.com/53369798/110748878-5b6daf00-820e-11eb-933c-a32483db9ced.png)
 
-Now that we have both the desired usernames and passwords to use, we can go ahead and use Metasploit to force our way into the POP3 service. Let's set up the module we'll being using:
+Let's also answer this question from the room while we still see the passwords to everyone:
 
-![image](https://user-images.githubusercontent.com/53369798/110749180-bf907300-820e-11eb-8cba-c61deb46b426.png)
+![image](https://user-images.githubusercontent.com/53369798/110753526-adb1ce80-8214-11eb-98c3-4e15e41589b5.png)
 
+Since we need to bruteforce a login for an online service, let's go ahead and use Hydra for this. I've went ahead and seperated the usernames and passwords into different text files to be used with Hydra:
+NOTE: "-f" means that the first succuessful attempt will end the attack
+
+![image](https://user-images.githubusercontent.com/53369798/110754682-13528a80-8216-11eb-9da0-16af3bb12ce2.png)
+
+And we have a result!:
+
+![image](https://user-images.githubusercontent.com/53369798/110754982-6d535000-8216-11eb-8acd-4a29f1152a47.png)
+
+So, now that we've deduced that we an applicable login to use to get into the POP3 service, let's go ahead and set up a Netcat connection to the service:
+
+![image](https://user-images.githubusercontent.com/53369798/110755747-4b0e0200-8217-11eb-83a3-a1dc0d757f70.png)
+
+After a quick snooping around the server I was able find this interesting message, sent by "stone". Here it is:
+
+![image](https://user-images.githubusercontent.com/53369798/110755933-87d9f900-8217-11eb-89c7-07dc32703413.png)
+
+Well, looks like the email gave us credentials to an SSH login that we can use:
+
+![image](https://user-images.githubusercontent.com/53369798/110756244-f028da80-8217-11eb-8a0a-c75903bbd221.png)
+
+Additionally, there is a second message, this time sent by "baksteen":
+
+![image](https://user-images.githubusercontent.com/53369798/110757733-b78a0080-8219-11eb-8738-25b5e8fad716.png)
+
+Reading through the message, here is an important piece of information that is valuable to us:
+
+![image](https://user-images.githubusercontent.com/53369798/110757978-fc159c00-8219-11eb-8a36-8db766b39fa2.png)
+
+So, it seems like "baksteen" hasn't actually seen the email from his manager ("stone").
+
+Let's waste no time here and try to login to SSH using his account:
+
+![image](https://user-images.githubusercontent.com/53369798/110758310-64647d80-821a-11eb-8a76-a5b4ae8322e9.png)
+
+Alright, 
